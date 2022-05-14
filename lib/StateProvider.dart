@@ -16,7 +16,7 @@ class StateProvider extends ChangeNotifier {
       var data = await _apiHelper.getApiData();
       if(data == 'error')
         {
-          error = data;
+          error = 'Error loading data';
           notifyListeners();
         }
       else{
@@ -51,6 +51,10 @@ class StateProvider extends ChangeNotifier {
           user.title.toString().toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
     }
+    if(results.isEmpty)
+      {
+        error = 'Data not found';
+      }
     listData = results;
     notifyListeners();
   }

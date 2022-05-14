@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
         appBar: AppBar(
-          toolbarHeight: 70,
+          toolbarHeight: 60,
           actions: [
             SizedBox(
               width: MediaQuery.of(context).size.width,
@@ -82,81 +82,76 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Consumer<StateProvider>(
           builder: (BuildContext context, provider, Widget? child) {
             return provider.listData.isEmpty
-                ? provider.error != null ? const Center(child: Text("Error loading data")) :const Center(child: CircularProgressIndicator())
+                ? provider.error != null ? Center(child: Text(provider.error.toString())) :const Center(child: CircularProgressIndicator())
                 : RefreshIndicator(
                     onRefresh: (){
                       return provider.onRefresh();
                     },
-                    child: SingleChildScrollView(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height,
-                        child: Column(
-                          children: [
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Text(provider.apiData.title,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-                              ),
-                            ),
-                            Expanded(
-                              child: ListView.builder(
-                                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                                  itemCount: provider.listData.length,
-                                  itemBuilder: (context, index) {
-                                    return Card(
-                                        elevation: 8,
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            CircleAvatar(
-                                              backgroundImage:NetworkImage(provider.listData[index].imageHref.toString()),
-                                              onBackgroundImageError: (error, stackTrace) {
-                                              },
-                                              backgroundColor: provider.listData[index].imageHref == null ?Colors.grey:Colors.white,
-                                              radius: 30,
-                                            ),
-                                            Column(
-                                              children: [
-                                                Container(
-                                                    margin: const EdgeInsets.all(8),
-                                                    width: MediaQuery.of(context)
-                                                            .size
-                                                            .width -
-                                                        130,
-                                                    child: Text(
-                                                      provider
-                                                          .listData[index].title
-                                                          .toString(),
-                                                      style: const TextStyle(
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    )),
-                                                Container(
-                                                    margin: const EdgeInsets.all(8),
-                                                    width: MediaQuery.of(context)
-                                                            .size
-                                                            .width -
-                                                        130,
-                                                    child: Text(provider
-                                                        .listData[index]
-                                                        .description
-                                                        .toString())),
-                                              ],
-                                            )
-                                          ],
-                                        ));
-                                  }),
-                            ),
-                          ],
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(provider.apiData.title,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
+                          ),
                         ),
-                      ),
+                        Expanded(
+                          child: ListView.builder(
+                            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                              itemCount: provider.listData.length,
+                              itemBuilder: (context, index) {
+                                return Card(
+                                    elevation: 8,
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 5),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        CircleAvatar(
+                                          backgroundImage:NetworkImage(provider.listData[index].imageHref.toString()),
+                                          onBackgroundImageError: (error, stackTrace) {
+                                          },
+                                          backgroundColor: provider.listData[index].imageHref == null ?Colors.grey:Colors.white,
+                                          radius: 30,
+                                        ),
+                                        Column(
+                                          children: [
+                                            Container(
+                                                margin: const EdgeInsets.all(8),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    130,
+                                                child: Text(
+                                                  provider
+                                                      .listData[index].title
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                )),
+                                            Container(
+                                                margin: const EdgeInsets.all(8),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    130,
+                                                child: Text(provider
+                                                    .listData[index]
+                                                    .description
+                                                    .toString())),
+                                          ],
+                                        )
+                                      ],
+                                    ));
+                              }),
+                        ),
+                      ],
                     ));
           },
         ));
